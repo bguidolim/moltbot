@@ -53,7 +53,9 @@ function resolveProfileUnusableUntil(stats: ProfileUsageStats): number | null {
 /** Checks if a key is currently in cooldown. */
 function isKeyInCooldown(store: AuthProfileStore, key: string, now: number): boolean {
   const stats = store.usageStats?.[key];
-  if (!stats) return false;
+  if (!stats) {
+    return false;
+  }
   const unusableUntil = resolveProfileUnusableUntil(stats);
   return unusableUntil !== null && now < unusableUntil;
 }
@@ -389,7 +391,9 @@ export async function clearAuthProfileCooldown(params: {
   const updated = await updateAuthProfileStoreWithLock({
     agentDir,
     updater: (freshStore) => {
-      if (!freshStore.usageStats?.[key]) return false;
+      if (!freshStore.usageStats?.[key]) {
+        return false;
+      }
 
       freshStore.usageStats[key] = {
         ...freshStore.usageStats[key],
@@ -403,7 +407,9 @@ export async function clearAuthProfileCooldown(params: {
     store.usageStats = updated.usageStats;
     return;
   }
-  if (!store.usageStats?.[key]) return;
+  if (!store.usageStats?.[key]) {
+    return;
+  }
 
   store.usageStats[key] = {
     ...store.usageStats[key],

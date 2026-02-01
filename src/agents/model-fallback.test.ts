@@ -281,7 +281,9 @@ describe("runWithModelFallback", () => {
     });
 
     const run = vi.fn().mockImplementation(async (providerId, modelId) => {
-      if (modelId === "model-b") return "ok";
+      if (modelId === "model-b") {
+        return "ok";
+      }
       throw new Error(`unexpected model: ${providerId}/${modelId}`);
     });
 
